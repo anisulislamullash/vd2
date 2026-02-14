@@ -10,15 +10,19 @@
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
         .container {
             text-align: center;
             margin-top: 100px;
             padding: 20px;
+            position: relative;
+            min-height: 400px;
         }
         h1 {
             color: #d10068;
             font-size: 48px;
+            margin-bottom: 50px;
         }
         button {
             background-color: #ff6699;
@@ -28,16 +32,27 @@
             font-size: 18px;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         button:hover {
             background-color: #ff3366;
+        }
+        button.moving {
+            transition: all 0.5s ease;
         }
         #secretMessage {
             margin-top: 30px;
             font-size: 22px;
             color: #b30059;
             line-height: 1.6;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -56,10 +71,51 @@
     <script>
         const btn = document.getElementById('messageButton');
         const msg = document.getElementById('secretMessage');
-        btn.addEventListener('click', () => {
-            msg.style.display = 'block';
-            btn.style.display = 'none';
+        let clickAttempts = 0;
+
+        btn.addEventListener('mouseover', function() {
+            if (clickAttempts < 2) {
+                moveButton();
+            }
         });
+
+        btn.addEventListener('click', function() {
+            if (clickAttempts >= 2) {
+                msg.style.display = 'block';
+                btn.style.display = 'none';
+            }
+        });
+
+        function moveButton() {
+            clickAttempts++;
+            btn.classList.add('moving');
+            
+            // Get random position
+            const container = document.querySelector('.container');
+            const maxX = container.offsetWidth - btn.offsetWidth - 40;
+            const maxY = 300;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.transform = 'none';
+            
+            // Change button text based on attempts
+            if (clickAttempts === 1) {
+                btn.textContent = 'Try again 😏';
+            } else if (clickAttempts === 2) {
+                btn.textContent = 'Try hardly 😆';
+                setTimeout(() => {
+                    btn.style.left = '50%';
+                    btn.style.top = '0';
+                    btn.style.transform = 'translateX(-50%)';
+                    btn.textContent = 'Ok last time you can click it now 💕';
+                    btn.classList.remove('moving');
+                }, 800);
+            }
+        }
     </script>
 </body>
 </html>
