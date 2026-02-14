@@ -71,28 +71,29 @@
     <script>
         const btn = document.getElementById('messageButton');
         const msg = document.getElementById('secretMessage');
-        let clickAttempts = 0;
-        let canClick = false;
-
-        btn.addEventListener('mouseover', function() {
-            if (clickAttempts < 2) {
-                moveButton();
-            }
-        });
+        let tapCount = 0;
 
         btn.addEventListener('click', function(e) {
-            if (!canClick && clickAttempts < 2) {
-                e.preventDefault();
-                moveButton();
-            } else if (canClick) {
+            e.preventDefault();
+            tapCount++;
+            
+            if (tapCount === 1) {
+                // First tap - move button
+                moveButton('Try again 😏');
+            } else if (tapCount === 2) {
+                // Second tap - move button again
+                moveButton('Try hardly 😆');
+            } else if (tapCount === 3) {
+                // Third tap - show message (after button settles)
+                // Do nothing here, wait for timeout to enable clicking
+            } else if (tapCount > 3) {
+                // Fourth tap onwards - show message if button is settled
                 msg.style.display = 'block';
                 btn.style.display = 'none';
             }
         });
 
-        function moveButton() {
-            clickAttempts++;
-            canClick = false;
+        function moveButton(text) {
             btn.classList.add('moving');
             
             // Get random position
@@ -106,19 +107,16 @@
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
             btn.style.transform = 'none';
+            btn.textContent = text;
             
-            // Change button text based on attempts
-            if (clickAttempts === 1) {
-                btn.textContent = 'Try again 😏';
-            } else if (clickAttempts === 2) {
-                btn.textContent = 'Try hardly 😆';
+            // After second move, center the button and make it ready
+            if (tapCount === 2) {
                 setTimeout(() => {
                     btn.style.left = '50%';
                     btn.style.top = '0';
                     btn.style.transform = 'translateX(-50%)';
                     btn.textContent = 'Ok last time you can click it now 💕';
                     btn.classList.remove('moving');
-                    canClick = true;
                 }, 1500);
             }
         }
