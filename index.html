@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        body {
+            background: #ffe6f0;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            margin-top: 100px;
+            padding: 20px;
+        }
+        h1 {
+            color: #d10068;
+            font-size: 48px;
+        }
+        button {
+            background-color: #ff6699;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ff3366;
+        }
+        #secretMessage {
+            margin-top: 30px;
+            font-size: 22px;
+            color: #b30059;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Happy Valentine's Day Picchi ! 💖</h1>
+        <button id="messageButton">
+            Click Click Click 
+        </button>
+        <p id="secretMessage" style="display:none;">
+            Happy Valentine's Day! 😊 I just wanted to tell you… 
+            you're really special to me 💕. I hope today and every day bring you happiness and little moments that make you smile. 
+            No matter what happens, I'll always be standing beside you and cheering you on 🌸.
+        </p>
+    </div>
+    <script>
+        const btn = document.getElementById('messageButton');
+        const msg = document.getElementById('secretMessage');
+        btn.addEventListener('click', () => {
+            msg.style.display = 'block';
+            btn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
