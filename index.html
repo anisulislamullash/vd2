@@ -72,6 +72,7 @@
         const btn = document.getElementById('messageButton');
         const msg = document.getElementById('secretMessage');
         let clickAttempts = 0;
+        let canClick = false;
 
         btn.addEventListener('mouseover', function() {
             if (clickAttempts < 2) {
@@ -79,8 +80,11 @@
             }
         });
 
-        btn.addEventListener('click', function() {
-            if (clickAttempts >= 2) {
+        btn.addEventListener('click', function(e) {
+            if (!canClick && clickAttempts < 2) {
+                e.preventDefault();
+                moveButton();
+            } else if (canClick) {
                 msg.style.display = 'block';
                 btn.style.display = 'none';
             }
@@ -88,6 +92,7 @@
 
         function moveButton() {
             clickAttempts++;
+            canClick = false;
             btn.classList.add('moving');
             
             // Get random position
@@ -113,6 +118,7 @@
                     btn.style.transform = 'translateX(-50%)';
                     btn.textContent = 'Ok last time you can click it now 💕';
                     btn.classList.remove('moving');
+                    canClick = true;
                 }, 1500);
             }
         }
